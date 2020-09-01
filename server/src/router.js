@@ -1,3 +1,6 @@
-const app = require('./app')
+const app = require('app')
+const BankAccountRouter = ('./routes/BankAccountRouter')
+const UserAccountRouter = ('./routes/UserAccountRouter')
 
-app.use('/user-account')
+app.use(UserAccountRouter)
+app.use(BankAccountRouter)
