@@ -4,12 +4,13 @@
   "main": "src/server.js",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon --exec babel-node"
+    "dev": "nodemon"
   },
   "dependencies": {
     "@babel/cli": "^7.11.5",
     "@babel/core": "^7.11.5",
     "@babel/preset-env": "^7.11.5",
+    "body-parser": "^1.19.0",
     "express": "^4.17.1",
     "mysql2": "^2.1.0",
     "sequelize": "^6.3.4"

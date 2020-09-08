@@ -1,40 +1,35 @@
-const { bankaccount } = require('../database/models')
+const { bankaccount } = require("../database/models");
 
-module.exports = class BankAccountDAO {
-    constructor() { }
-
-    getBankAccount(id) {
-        let bankAccount = bankaccount.findByPk(id)
-
-        if (!bankAccount) {
-            return null
-        }
-
-        return bankAccount;
+class BankAccountDAO {
+  getBankAccount(req, res) {
+    const { id } = req.params;
+    let bankAccount = bankaccount.findByPk(id);
+    if (!bankAccount) {
+      return res.status(400).json({ error: "not found" });
     }
 
-    async deposit(id, value) {
+    return res.status(200).json(bankAccount);
+  }
 
-        return await bank
-            .update({ balance: value }, { where: { id } })
-            .then(response => response)
+  async deposit(req, res) {
+    const { value, id } = req.body;
+    return await bankaccount
+      .update({ balance: value }, { where: { id } })
+      .then((response) => res.status(200).json(response));
+  }
 
+  async get(req, res) {
+    const { id } = req.params;
+    let bankAccount = bankaccount.findByPk(id);
+
+    if (value > bankAccount.balance) {
+      return res.status(200).json({ error: "saldo insuficiente" });
     }
 
-    async get(id, value) {
+    const get = await bank
+      .update({ balance: bankAccount.balance - value }, { where: { id } })
+      .then(() => response);
+  }
+}
 
-        let bankAccount = bankaccount.findByPk(id)
-
-        if (value > bankAccount.balance) {
-            return -1
-        }
-
-        return await bank
-            .update({ balance: bankAccount.balance - value }, { where: { id } })
-            .then(response => response)
-
-
-    }
-
-
-} 
+module.exports = new BankAccountDAO();

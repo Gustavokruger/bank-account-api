@@ -1,41 +1,45 @@
-const { bankaccount, useraccount } = require('../database/models')
+const { bankaccount, useraccount } = require("../database/models");
 
-module.exports = class UserAccountDAO {
-    constructor() { }
+class UserAccountDAO {
+  getUserAccount(req, res) {
+    const { id } = req.params;
+    let userAccount = useraccount.findByPk(id);
 
-    getUserAccount(id) {
-        let userAccount = useraccount.findByPk(id)
-
-        if (!userAccount) {
-            return null
-        }
-
-        return userAccount;
-
+    if (!userAccount) {
+      return res.status(400).json({ error: "not found" });
     }
 
-    async createUserAccount(userAccount) {
-        return await bankaccount
-            .create()
-            .then(response => {
-                useraccount.create({
-                    firstName: userAccount.firstName,
-                    lastName: userAccount.lastName,
-                    email: userAccount.email,
-                    bankAccountId: response.id
-                })
-                    .then(response => response
-                    )
-            })
+    return res.status(200).json(userAccount);
+  }
 
+  async createUserAccount(req, res) {
+    const userAccount = req.body;
+    return await bankaccount.create().then((response) => {
+      useraccount
+        .create({
+          firstName: userAccount.firstName,
+          lastName: userAccount.lastName,
+          email: userAccount.email,
+          bankAccountId: response.id,
+        })
+        .then((response) => res.status(200).json(response));
+    });
+  }
 
-    }
+  async updateUserAccount(userAccount) {
+    return await UserAccount.update(
+      {
+        firstName: userAccount.firstName,
+        lastName: userAccount.lastName,
+        email: userAccount.email,
+      },
+      { where: { id: userAccount.id } }
+    ).then((response) => res.status(200).json(response));
+  }
 
-    async updateUserAccount(userAccount) {
-        return await UserAccount.update({ firstName: userAccount.firstName, lastName: userAccount.lastName, email: userAccount.email }, { where: { id: userAccount.id } })
-    }
+  async deleteUserAccount(id) {
+    return await UserAccount.destroy({ where: { id } });
+  }
+}
 
-    async deleteUserAccount(id) {
-        return await UserAccount.destroy({ where: { id } })
-    }
-} 
+module.exports = new UserAccountDAO();
