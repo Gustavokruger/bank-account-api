@@ -1,4 +1,5 @@
-const { bankaccount, useraccount } = require("../database/models");
+const bankaccount = require("../database/models/bankaccount.js");
+const useraccount = require("../database/models/useraccount.js");
 
 class UserAccountDAO {
   getUserAccount(req, res) {
@@ -14,6 +15,7 @@ class UserAccountDAO {
 
   async createUserAccount(req, res) {
     const userAccount = req.body;
+    console.log(bankaccount);
     return await bankaccount.create().then((response) => {
       useraccount
         .create({

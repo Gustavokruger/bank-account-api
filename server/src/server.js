@@ -1,8 +1,8 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 
-const BankAccountRouter = "./routes/BankAccountRouter.js";
-const UserAccountRouter = "./routes/UserAccountRouter.js";
+const BankAccountRouter = require("./routes/BankAccountRouter.js");
+const UserAccountRouter = require("./routes/UserAccountRouter.js");
 
 const app = express();
 

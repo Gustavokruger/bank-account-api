@@ -1,4 +1,4 @@
-const { bankaccount } = require("../database/models");
+const { BankAccount: bankaccount } = require("../database/models");
 
 class BankAccountDAO {
   getBankAccount(req, res) {
